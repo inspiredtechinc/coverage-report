@@ -1,0 +1,24 @@
+name: Update Coverage Index
+
+on:
+  push:
+    branches: [gh-pages]
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run index update script
+        run: node scripts/update-index.js
+      - name: Commit and push updated index
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add index.html
+          git commit -m "Update coverage index"
+          git push
